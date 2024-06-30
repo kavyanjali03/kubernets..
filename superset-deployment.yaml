@@ -1,0 +1,30 @@
+# superset-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superset
+  namespace: analytics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: superset
+  template:
+    metadata:
+      labels:
+        app: superset
+    spec:
+      containers:
+      - name: superset
+        image: apache/superset:latest
+        ports:
+        - containerPort: 8088
+        env:
+        - name: SUPERSET_LOAD_EXAMPLES
+          value: "yes"
+        - name: SUPERSET_SECRET_KEY
+          value: "thisISaSECRET_1234"
+        - name: SUPERSET_ADMIN_PASSWORD
+          value: "admin"
+        - name: SUPERSET_ADMIN_USERNAME
+          value: "admin"
